@@ -3,6 +3,9 @@ credentials
 - email : superUser@test.com
 - password : asdf1234
 
+Postman collection
+https://www.getpostman.com/collections/7b572c860ab9c332253c
+
 Endpoints:
 - POST /login 
 - POST /users
