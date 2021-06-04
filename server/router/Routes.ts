@@ -8,6 +8,8 @@ import {UserRepository} from "../db/UserRepository";
 import {TaskRoutes} from "./TaskRoutes";
 const jwt = require('jsonwebtoken');
 import * as config from "config";
+import {User} from "../domain/User";
+import {Encryptor} from "../util/Encryptor";
 
 @injectable()
 export class Routes {
@@ -34,10 +36,10 @@ export class Routes {
     this.routes.forEach(r => r.init());
     app.use("/login", async (req, res) => {
       let body = req.body;
-      let user = await UserRepository.findOne({
+      let user:User = await UserRepository.findOne({
         email: body.email
       }).lean()
-      if (!user) {
+      if (!user || !Encryptor.comparePassword(body.password,user.password)) {
         res.status(401).send();
         return;
       }

@@ -6,6 +6,7 @@ import {UserRole} from "../domain/UserRole";
 import {Task} from "../domain/Task";
 import {TaskReviewerMapping} from "../domain/TeskReviewerMapping";
 import {TaskReviewerMappingRepository} from "../db/TaskReviewerMappingRepository";
+import {Encryptor} from "../util/Encryptor";
 
 @injectable()
 export class UserController extends BaseController {
@@ -19,7 +20,11 @@ export class UserController extends BaseController {
     if (user) {
       return res.status(400).send("User Already Exist");
     }
+    if(!body.email || !body.password){
+      return res.status(400).send("Bad Request");
+    }
     body = Object.assign(new User(), body)
+    body.password=Encryptor.encrypt(body.password)
     await UserRepository.create(body)
     return res.status(201).send();
   }
@@ -37,12 +42,5 @@ export class UserController extends BaseController {
     return res.status(200).send(data)
   }
 
-  async login(req, res) {
-    let body = req.body;
-    let user = UserRepository.find({
-      email: body.email
-    }).lean()
-    let h = user;
-  }
 
 }

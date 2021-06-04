@@ -26,15 +26,18 @@ export class TaskController extends BaseController {
     let take = Number(req.query.take);
     let userId = req.query.userId
     //if logged in user is not equal to user whose tasks are requested
-    if (userId && userId !== req.state.user._id.toString()) {
+    if (userId && userId !== req.state.user.uniqueId) {
       if (req.state.user.role !== UserRole.Admin) {
         return this.unAuthorised(req, res)
       }
     }
     if (!userId) {
-      userId = req.state.user._id
+      userId = req.state.user.uniqueId
     }
-    let tasks = await TaskRepository.getTasks(userId, skip, take)
+    let user = await UserRepository.findOne({
+      uniqueId: userId
+    }).lean()
+    let tasks = await TaskRepository.getTasks(user._id, skip, take)
     let data = {
       data: tasks.map(x => x.toJson())
     }
@@ -60,9 +63,9 @@ export class TaskController extends BaseController {
     }
 
     //check is user is a reviewer for given task
-    let mapping=await TaskReviewerMappingRepository.getMapping(req.state.user.uniqueId,task.uniqueId)
+    let mapping = await TaskReviewerMappingRepository.getMapping(req.state.user.uniqueId, task.uniqueId)
 
-    if(mapping){
+    if (mapping) {
       return res.status(200).send(task)
     }
     return this.unAuthorised(req, res)
@@ -80,6 +83,17 @@ export class TaskController extends BaseController {
     if (mapping) {
       return res.status(400).send("Reviewer Already Added");
     }
+    let tasks = await TaskRepository.getByUniqueIds([taskId])
+    let user = await UserRepository.findOne({
+      uniqueId: body.userUniqueId
+    }).lean()
+    if (tasks.length === 0 || !user) {
+      return res.status(400).send("Entities does not exist");
+    }
+    if (tasks[0].userRef.toString()===user._id.toString()) {
+      return res.status(400).send("User Can't become reviewer of its own task");
+    }
+
     mapping = new TaskReviewerMapping()
     mapping.taskUniqueId = taskId;
     mapping.userUniqueId = body.userUniqueId;
