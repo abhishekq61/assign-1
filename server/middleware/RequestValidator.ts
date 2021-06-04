@@ -1,4 +1,5 @@
 import {UserRepository} from "../db/UserRepository";
+import * as config from "config"
 
 const jwt = require('jsonwebtoken');
 
@@ -12,9 +13,9 @@ export class RequestValidator {
       res.status(401)
       return;
     }
-    const decoded = jwt.verify(token, 'shhhhh');
+    const decoded = jwt.verify(token, config.get("app.jwtSecret"));
     if (!decoded || !decoded.uniqueId) {
-      res.status(401)
+      res.status(401).send()
       return;
     }
     let user = await UserRepository.findOne({

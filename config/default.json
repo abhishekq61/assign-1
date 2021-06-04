@@ -1,7 +1,8 @@
 {
   "mode":"dev",
   "app": {
-    "secret": "kl43mrokeflnvo3prffrrrgy56utwh7i"
+    "secret": "kl43mrokeflnvo3prffrrrgy56utwh7i",
+    "jwtSecret": "shhhhh"
   },
   "db": {
     "mongoUrl": "mongodb://localhost:27017/stamurai-abhishek"

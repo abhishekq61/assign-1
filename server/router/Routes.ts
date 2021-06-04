@@ -5,7 +5,9 @@ import {AppContainer} from "../ioc/Container";
 import {UserRoutes} from "./UserRoutes";
 import {RequestValidator} from "../middleware/RequestValidator";
 import {UserRepository} from "../db/UserRepository";
+import {TaskRoutes} from "./TaskRoutes";
 const jwt = require('jsonwebtoken');
+import * as config from "config";
 
 @injectable()
 export class Routes {
@@ -17,6 +19,7 @@ export class Routes {
   ) {
     this.router = router;
     this.routes.push(AppContainer.container.get(UserRoutes))
+    this.routes.push(AppContainer.container.get(TaskRoutes))
   }
 
   init(app: express.Application) {
@@ -38,7 +41,7 @@ export class Routes {
         res.status(401).send();
         return;
       }
-      const token = jwt.sign({ uniqueId: user.uniqueId}, 'shhhhh');
+      const token = jwt.sign({ uniqueId: user.uniqueId}, config.get("app.jwtSecret"));
       res.cookie("jwt", token, {secure: true, httpOnly: true})
       res.status(200).send()
       return;

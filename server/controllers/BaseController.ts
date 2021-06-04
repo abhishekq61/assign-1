@@ -5,15 +5,9 @@ import * as config from "config";
 
 @injectable()
 export abstract class BaseController {
-   baseApiUrl = config.get("baseApiUrl");
-   baseUIUrl = config.get("baseUIUrl");
+  baseApiUrl = config.get("baseApiUrl");
+  baseUIUrl = config.get("baseUIUrl");
 
-  ok(ctx: Router.IRouterContext, data = null) {
-    if (data)
-      ctx.body = data;
-
-    ctx.status = StatusCode.Ok;
-  }
 
   error(ctx: Router.IRouterContext, errorCode: number, message: string = "") {
     ctx.status = errorCode;
@@ -31,4 +25,7 @@ export abstract class BaseController {
     }
   }
 
+  unAuthorised(req, res) {
+    res.status(401).send()
+  }
 }

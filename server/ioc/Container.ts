@@ -7,6 +7,8 @@ import * as config from "config";
 import {UnitOfWork} from "../db/UnitOfWork";
 import {UserController} from "../controllers/UserController";
 import {UserRoutes} from "../router/UserRoutes";
+import {TaskController} from "../controllers/TaskController";
+import {TaskRoutes} from "../router/TaskRoutes";
 
 export class AppContainer {
 
@@ -43,12 +45,14 @@ export class AppContainer {
       container.bind<express.Router>(express.Router).toConstantValue(router);
       container.bind<Routes>(Routes).to(Routes);
       container.bind<UserRoutes>(UserRoutes).to(UserRoutes);
+      container.bind<TaskRoutes>(TaskRoutes).to(TaskRoutes);
 
       // repositories
 
 
       // controller
       container.bind<UserController>(UserController).to(UserController)
+      container.bind<TaskController>(TaskController).to(TaskController)
 
       // services
 

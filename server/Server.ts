@@ -7,6 +7,7 @@ import {Application} from "express/index";
 import {UserRepository} from "./db/UserRepository";
 import {User} from "./domain/User";
 import {Encryptor} from "./util/Encryptor";
+import {UserRole} from "./domain/UserRole";
 
 //import {Container} from "./ioc/Container";
 
@@ -46,6 +47,7 @@ export class Server {
       user.uniqueId = "super-user"
       user.email = "superUser@test.com"
       user.password = Encryptor.encrypt("asdf1234")
+      user.role=UserRole.Admin
       await UserRepository.create(user)
     }
   }

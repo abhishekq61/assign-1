@@ -7,7 +7,8 @@ let UserSchema = new mongoose.Schema({
   role: Number,
   name: String,
   email: String,
-  password: String
+  password: String,
+  deletedAt: Date
 });
 
 class User {
@@ -15,9 +16,14 @@ class User {
   name: string;
   email: string;
   password: string;
-
+  role: number;
+  deletedAt: Date;
   constructor() {
     this.uniqueId = IdGenerator.getUniqueId()
+  }
+  toJson(){
+    delete  this.password;
+    return this;
   }
 }
 
