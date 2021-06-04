@@ -4,12 +4,16 @@ import {AppContainer} from "./ioc/Container";
 import {JobScheduler} from "./jobs/JobScheduler";
 import * as express from 'express';
 import {Application} from "express/index";
+import {UserRepository} from "./db/UserRepository";
+import {User} from "./domain/User";
+import {Encryptor} from "./util/Encryptor";
+
 //import {Container} from "./ioc/Container";
 
 
 export class Server {
 
-  async init(app:express.Application): Promise<any> {
+  async init(app: express.Application): Promise<any> {
     // app.proxy = true;
     //
     // app.on('error', (err, ctx) => {
@@ -20,7 +24,7 @@ export class Server {
     await AppContainer.instance.init();
 
     //if (!AppContainer.container.isBound(express.Application))
-      AppContainer.container.bind(express.application).toConstantValue(app);
+    AppContainer.container.bind(express.application).toConstantValue(app);
 
     const routes = new Routes(AppContainer.container.get(express.Router));
     routes.init(app);
@@ -28,7 +32,22 @@ export class Server {
     if (process.env.NODE_ENV !== "test")
       await JobScheduler.instance.init();
 
+    await this.initDb();
+
     return app;
+  }
+
+  async initDb() {
+    let user = await UserRepository.findOne({
+      uniqueId: "super-user"
+    });
+    if (!user) {
+      let user = new User()
+      user.uniqueId = "super-user"
+      user.email = "superUser@test.com"
+      user.password = Encryptor.encrypt("asdf1234")
+      await UserRepository.create(user)
+    }
   }
 
   async destroy() {

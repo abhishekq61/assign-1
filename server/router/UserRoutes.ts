@@ -13,6 +13,9 @@ export class UserRoutes extends BaseRoutes {
   }
 
   init() {
-    this.router.post("/users", (req, res) => this.controller.addUser(req, res))
+    this.router
+      .post("/users", (req, res) => this.controller.addUser(req, res))
+      .get("/users/login", (req, res) => this.controller.login(req, res))
+
   }
 }
