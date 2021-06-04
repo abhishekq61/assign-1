@@ -6,7 +6,7 @@ import {ObjectId} from "mongoose";
 import * as mongoose from "mongoose";
 import {UserRepository} from "../db/UserRepository";
 import {UserRole} from "../domain/UserRole";
-import {TaskReviewerMapping} from "../domain/TeskReviewerMapping";
+import {TaskReviewerMapping} from "../domain/TaskReviewerMapping";
 import {TaskReviewerMappingRepository} from "../db/TaskReviewerMappingRepository";
 
 @injectable()

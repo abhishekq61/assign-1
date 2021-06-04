@@ -39,7 +39,6 @@ export class AppContainer {
 
       await mongoose.connect(config.get("db.mongoUrl"));
       const router = express.Router()
-      //  router.prefix("/api");
 
       // routes
       container.bind<express.Router>(express.Router).toConstantValue(router);

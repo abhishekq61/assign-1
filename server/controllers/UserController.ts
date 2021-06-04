@@ -4,7 +4,7 @@ import {User} from "../domain/User";
 import {UserRepository} from "../db/UserRepository";
 import {UserRole} from "../domain/UserRole";
 import {Task} from "../domain/Task";
-import {TaskReviewerMapping} from "../domain/TeskReviewerMapping";
+import {TaskReviewerMapping} from "../domain/TaskReviewerMapping";
 import {TaskReviewerMappingRepository} from "../db/TaskReviewerMappingRepository";
 import {Encryptor} from "../util/Encryptor";
 

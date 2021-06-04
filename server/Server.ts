@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import {Routes} from "./router/Routes";
 import {AppContainer} from "./ioc/Container";
-import {JobScheduler} from "./jobs/JobScheduler";
 import * as express from 'express';
 import {Application} from "express/index";
 import {UserRepository} from "./db/UserRepository";
@@ -30,8 +29,6 @@ export class Server {
     const routes = new Routes(AppContainer.container.get(express.Router));
     routes.init(app);
 
-    if (process.env.NODE_ENV !== "test")
-      await JobScheduler.instance.init();
 
     await this.initDb();
 

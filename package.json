@@ -5,13 +5,10 @@
   "author": "abhishek",
   "private": true,
   "scripts": {
-    "build-shopify": "rm -rf lib && NODE_ENV=production ./node_modules/.bin/webpack --config webpack/webpack.config.js --mode=production",
     "dev": "cross-env NODE_ENV=development nodemon --watch server --exec 'ts-node' server/Index.ts",
     "build": "nuxt build",
     "dev-web": "API_URL=https://tunnel-web.tunnel.staqlab.com NODE_ENV=dev PORT=3000 nuxt",
     "dev-server": "cross-env NODE_ENV=dev PORT=3001 ts-node server/Index.ts",
-    "server-api-tunnel": "~/staqlab-tunnel 3001 hostname=addy-api",
-    "server-ui-tunnel": "~/staqlab-tunnel 3000 hostname=addy",
     "start": "cross-env NODE_ENV=production node server/index.js",
     "generate": "nuxt generate"
   },

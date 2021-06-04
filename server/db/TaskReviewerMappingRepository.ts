@@ -6,7 +6,7 @@ import {
   TaskReviewerMapping,
   TaskReviewerMappingDocument,
   TaskReviewerMappingSchema
-} from "../domain/TeskReviewerMapping";
+} from "../domain/TaskReviewerMapping";
 
 let TaskReviewerMappingModel = mongoose.model<TaskReviewerMappingDocument>('taskReviewerMappings', TaskReviewerMappingSchema);
 
