@@ -1,0 +1,12 @@
+{
+  "mode":"dev",
+  "db": {
+    "mongoUrl": "mongodb://localhost:27017/stamurai-abhishek"
+  },
+  "baseApiUrl": "https://addy-api.staqlab-tunnel.com",
+  "baseUIUrl": "http://localhost:3000",
+  "fb": {
+    "clientId": "741815189780521",
+    "clientSecret": "c0ef1c7e5e08602eee3c536e9505eaa4"
+  }
+}
